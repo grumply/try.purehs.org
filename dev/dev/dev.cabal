@@ -1,0 +1,40 @@
+cabal-version: 1.12
+
+-- This file has been generated from .package.yaml by hpack version 0.32.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 5270264ea9be9c3590a80e0eedde255606418e4dbc2f77056e9d5ce02848a7af
+
+name:           dev
+version:        0.1.0.0
+synopsis:       dev environment
+category:       Web
+author:         <Author>
+maintainer:     <Author>
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+
+executable dev
+  main-is: Main.hs
+  other-modules:
+      Dev
+      Paths_dev
+  hs-source-dirs:
+      src
+  default-extensions: AutoDeriveTypeable BangPatterns ConstraintKinds DataKinds DefaultSignatures DeriveDataTypeable DeriveFoldable DeriveFunctor DeriveGeneric DeriveTraversable DoAndIfThenElse EmptyCase EmptyDataDecls ExistentialQuantification FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving ImplicitParams InstanceSigs KindSignatures LambdaCase MultiParamTypeClasses MultiWayIf NamedFieldPuns OverloadedStrings PartialTypeSignatures PatternGuards PatternSynonyms PolyKinds RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving TupleSections TypeApplications TypeFamilies TypeFamilyDependencies TypeOperators TypeSynonymInstances ViewPatterns TemplateHaskell QuasiQuotes NoMonomorphismRestriction
+  ghc-options: -Wall -fno-warn-unused-do-bind -rtsopts -threaded
+  ghcjs-options: -threaded -dedupe -DGHCJS_BROWSER -DGHCJS_GC_INTERVAL=3000000
+  build-depends:
+      Glob
+    , base
+    , containers
+    , directory
+    , filepath
+    , fsnotify
+    , process
+    , pure-time
+    , pure-txt
+    , pure-txt-interpolate
+  default-language: Haskell2010

@@ -1,0 +1,31 @@
+cabal-version: 1.12
+
+-- This file has been generated from .package.yaml by hpack version 0.32.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 2135958a12d598115889bd0d16b2857e18c2e115a82de31e7e2385d60a92bb7b
+
+name:                shared
+version:             0.1.0.0
+synopsis:            shared types and apis
+license:             BSD3
+license-file:        LICENSE
+author:              <Author>
+maintainer:          <Author>
+category:            Web
+build-type:          Simple
+
+library
+  exposed-modules:
+    Shared
+  build-depends:
+    base,
+    pure,
+    pure-websocket
+  hs-source-dirs:
+    src
+  default-language: Haskell2010
+  default-extensions: AutoDeriveTypeable BangPatterns ConstraintKinds DataKinds DefaultSignatures DeriveDataTypeable DeriveFoldable DeriveFunctor DeriveGeneric DeriveTraversable DoAndIfThenElse EmptyCase EmptyDataDecls ExistentialQuantification FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving ImplicitParams InstanceSigs KindSignatures LambdaCase MultiParamTypeClasses MultiWayIf NamedFieldPuns OverloadedStrings PartialTypeSignatures PatternGuards PatternSynonyms PolyKinds RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving TupleSections TypeApplications TypeFamilies TypeFamilyDependencies TypeOperators TypeSynonymInstances ViewPatterns TemplateHaskell
+  ghc-options: -Wall -fno-warn-unused-do-bind -rtsopts -threaded
+  ghcjs-options: -threaded -dedupe -DGHCJS_BROWSER -DGHCJS_GC_INTERVAL=3000000

@@ -1,0 +1,8 @@
+dist-newstyle
+.dist-newstyle
+.dist
+result
+cabal.project.local
+cabal.project.local~
+cabal-ghcjs.project.local
+dist/*

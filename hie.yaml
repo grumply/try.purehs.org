@@ -1,0 +1,12 @@
+cradle:
+  cabal:
+    - path: ./app/frontend
+      component: "lib:frontend"
+    - path: ./app/backend
+      component: "lib:backend"
+    - path: ./app/shared
+      component: "lib:shared"
+    - path: ./dev/server
+      component: "exe:server"
+    - path: ./dev/dev
+      component: "exe:dev"

@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+BUILDER=./.dist-newstyle/dev/build/*/ghc-8.6.5/*/x/dev/opt/build/dev/dev
+SERVER=./.dist-newstyle/server/build/*/ghc-8.6.5/*/x/server/opt/build/server/server
+
+function clean_up_ghcjs {
+  KILL $SERVER_PID
+  KILL $BUILDER_PID
+  clear
+  exit
+}
+
+case "$1" in
+  -h|--help)
+    echo "develop - develop a full-stack application with pure using GHC and GHCJS"
+    echo " "
+    echo "$package [options]"
+    echo " "
+    echo "options:"
+    echo "-h, --help                show brief help"
+    echo "--ghcjs                   continuously build, deploy, and serve using GHCJS"
+    echo "--ghc                     continuously build, run, and test using GHC"
+    echo "_                         run HIE, a Haskell language server"
+    exit 0
+    ;;
+  --ghcjs)
+    trap clean_up_ghcjs SIGHUP SIGINT SIGTERM
+    nix-shell default.nix -A shells.ghc --run "cabal new-build server --enable-optimization=2 --builddir=./.dist-newstyle/server --project-file=develop.project --ghc-options=\"-threaded -rtsopts\""
+    nix-shell default.nix -A shells.ghc --run "cabal new-build dev --enable-optimization=2 --builddir=./.dist-newstyle/dev --project-file=develop.project --ghc-options=\"-threaded -rtsopts\""
+    nix-shell default.nix -A shells.ghc --run "$SERVER --root ./dist +RTS -N -A32m" &
+    clear
+    SERVER_PID=$!
+    nix-shell default.nix -A shells.ghcjs --run "$BUILDER --optimize --ghcjs +RTS -I0 -N -A128m -RTS" &
+    BUILDER_PID=$!
+    wait $SERVER_PID $BUILDER_PID
+    ;;
+  --ghc)
+    clear
+    nix-shell default.nix -A shells.ghc --run "cabal new-build dev --enable-optimization=2 --builddir=./.dist-newstyle/dev --project-file=develop.project --ghc-options=\"-threaded -rtsopts\""
+    nix-shell default.nix -A shells.ghc --run "$BUILDER --optimize +RTS -I0 -N -A128m -RTS"
+    clear
+    ;;
+  *)
+    nix-shell default.nix -A shells.ghc --run "hie --lsp"
+    ;;
+esac
+

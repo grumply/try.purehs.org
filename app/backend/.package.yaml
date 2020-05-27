@@ -1,0 +1,94 @@
+email: <Email>
+library:
+  source-dirs:
+  - src
+  other-modules: []
+category: Web
+ghc-options: -Wall -fno-warn-unused-do-bind -rtsopts -threaded
+dependencies:
+- base
+- pure
+- pure-elm
+- pure-txt-interpolate
+- pure-server
+- pure-websocket
+- shared
+- bytestring
+- containers
+- directory
+- filepath
+- process
+- text
+- hashable
+default-extensions:
+- AutoDeriveTypeable
+- BangPatterns
+- ConstraintKinds
+- DataKinds
+- DefaultSignatures
+- DeriveDataTypeable
+- DeriveFoldable
+- DeriveFunctor
+- DeriveGeneric
+- DeriveTraversable
+- DoAndIfThenElse
+- EmptyCase
+- EmptyDataDecls
+- ExistentialQuantification
+- FlexibleContexts
+- FlexibleInstances
+- FunctionalDependencies
+- GADTs
+- GeneralizedNewtypeDeriving
+- ImplicitParams
+- InstanceSigs
+- KindSignatures
+- LambdaCase
+- MultiParamTypeClasses
+- MultiWayIf
+- NamedFieldPuns
+- OverloadedStrings
+- PartialTypeSignatures
+- PatternGuards
+- PatternSynonyms
+- PolyKinds
+- RankNTypes
+- RecordWildCards
+- ScopedTypeVariables
+- StandaloneDeriving
+- TupleSections
+- TypeApplications
+- TypeFamilies
+- TypeFamilyDependencies
+- TypeOperators
+- TypeSynonymInstances
+- ViewPatterns
+- TemplateHaskell
+- PostfixOperators
+name: backend
+version: 0.1.0.0
+synopsis: backend server
+author: <Author>
+ghcjs-options: -threaded -dedupe -DGHCJS_BROWSER -DGHCJS_GC_INTERVAL=3000000
+license: BSD3
+executables:
+  backend:
+    source-dirs:
+    - src
+    main: Main.hs
+    dependencies:
+    - backend
+    - base
+    - pure
+    - pure-elm
+    - pure-txt-interpolate
+    - pure-server
+    - pure-websocket
+    - shared
+    - bytestring
+    - containers
+    - directory
+    - filepath
+    - process
+    - text
+    - hashable

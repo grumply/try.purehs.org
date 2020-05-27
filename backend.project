@@ -1,0 +1,8 @@
+compiler: ghc
+allow-newer: all
+jobs: $ncpus
+packages:
+  app/backend/
+  app/frontend/
+  app/shared/
+

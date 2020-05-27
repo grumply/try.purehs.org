@@ -1,0 +1,7 @@
+compiler: ghcjs
+allow-newer: all
+jobs: $ncpus
+packages:
+  app/shared/
+  app/frontend/
+
