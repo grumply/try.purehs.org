@@ -14,7 +14,7 @@ import qualified Home
 main :: IO ()
 main = do
   hSetBuffering stdout LineBuffering
-  ws <- clientWS "192.168.1.26" 8082
+  ws <- clientWS "204.48.20.19" 8080
   inject body (Div <| Themed @AppT |> [ app ws ])
 
 data Route = HomeR | RefR String

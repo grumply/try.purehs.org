@@ -29,7 +29,7 @@ main = inject body (server ()) >> hSetBuffering stdout NoBuffering >> sleep
 server :: () -> View
 server = Component $ \_self -> def
     { construct = return ()
-    , render    = \_ _ -> Server "192.168.1.26" 8082 conn
+    , render    = \_ _ -> Server "204.48.20.19" 8080 conn
     }
 
 data Model = Model [Int]
@@ -116,7 +116,7 @@ handleCompile = respondWith $ \cnt -> do
       hClose m
       o <- openFile out WriteMode
       e <- openFile err WriteMode 
-      handle @SomeException (\_ -> hClose o >> hClose e >> pure (Left "timeout")) $ do
+      handle @SomeException (\_ -> hClose o >> hClose e >> pure (Left "Unknown exception encountered during compilation.")) $ do
         (_,_,_,ph) <- createProcess 
           (shell [i|ghcjs --make -O -DGHCJS_BROWSER -dedupe #{mdl} #{pragmas} -XNoTemplateHaskell|])
             { std_out = UseHandle o 
