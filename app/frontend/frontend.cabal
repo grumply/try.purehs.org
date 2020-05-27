@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 90ee628f098e28811e4cf1634f381f008b549e7f70c2c6ee356d373ffcd00844
+-- hash: f410cc2a17d5b3532e93db4a3cab92b6028de59d9de6c542a7ce400fc3e1190b
 
 name:           frontend
 version:        0.1.0.0
@@ -32,7 +32,6 @@ library
     , pure-lifted
     , pure-router
     , pure-txt
-    , pure-txt-interpolate
     , pure-websocket
     , shared
   default-language: Haskell2010
@@ -55,7 +54,6 @@ executable frontend
     , pure-lifted
     , pure-router
     , pure-txt
-    , pure-txt-interpolate
     , pure-websocket
     , shared
   default-language: Haskell2010

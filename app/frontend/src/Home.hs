@@ -1,7 +1,5 @@
-{-# language QuasiQuotes #-}
 module Home (page) where
 
-import Pure.Data.Txt.Interpolate
 import Pure.Data.Txt as Txt
 import Pure.Elm hiding (Left,Right)
 import Pure.Data.Lifted
@@ -71,7 +69,7 @@ page = curry (run (App [] [Receive] [] mdl update view))
       for_ (editor mdl) (set_value_js t)
       pure mdl
     update (SetResult r) _ mdl = do
-      for_ r $ \h -> pushState [i|/#{h}|]
+      for_ r $ \h -> pushState ("/" <> toTxt h)
       pure mdl { result = Just r }
 
     view :: Elm Msg => (WebSocket,Maybe String) -> Model -> View
@@ -88,7 +86,7 @@ page = curry (run (App [] [Receive] [] mdl update view))
       where
         nothing   = Null
         failure m = viewer m 
-        success r = Iframe <| Src [i|/static/builds/#{r}/Main.jsexe/index.html|]
+        success r = Iframe <| Src ("/static/builds/" <> toTxt r <> "/Main.jsexe/index.html")
 
 data ResultsModel = ResultsModel
   { results :: Maybe Editor }

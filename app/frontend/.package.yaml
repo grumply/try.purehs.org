@@ -12,7 +12,6 @@ dependencies:
 - pure-elm
 - pure-router
 - pure-txt
-- pure-txt-interpolate
 - pure-websocket
 - shared
 default-extensions:
@@ -79,6 +78,5 @@ executables:
     - pure-elm
     - pure-router
     - pure-txt
-    - pure-txt-interpolate
     - pure-websocket
     - shared

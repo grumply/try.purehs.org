@@ -9,7 +9,6 @@ let deps =
       , "pure-elm"
       , "pure-router"
       , "pure-txt"
-      , "pure-txt-interpolate"
       , "pure-websocket"
       , "shared"
       ]
