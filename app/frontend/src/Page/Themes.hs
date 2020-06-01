@@ -63,7 +63,10 @@ instance Theme CommandsT where
 
 data EditButtonT
 instance Theme EditButtonT where
-  theme c = void $ 
+  theme c = void $ do
+    is (subtheme @EditingT) . has c .> do
+      display =: none
+
     is c $ do
       apply $ do
         display =: inline-block
@@ -74,7 +77,11 @@ instance Theme EditButtonT where
 
 data CompileButtonT
 instance Theme CompileButtonT where
-  theme c = void $ 
+  theme c = void $ do
+    is (subtheme @CompilingT) . has c $ do
+      splitWidth <%> do
+        display =: none
+
     is c .> do
       display =: inline-block
       height  =: 20px
