@@ -58,6 +58,7 @@ data CommandsT
 instance Theme CommandsT where
   theme c = void $ 
     is c .> do
+      background-color =: hex 0x141414
       width =: (100%)
       height =: 20px
 
