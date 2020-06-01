@@ -3,6 +3,7 @@ module Page.Results (results) where
 import Page.Themes
 import Page.Utils
 
+import Pure.Data.Lifted
 import Pure.Elm hiding (not)
 
 import Control.Concurrent
