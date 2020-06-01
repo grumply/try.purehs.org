@@ -16,6 +16,6 @@ loader = run (App [Startup] [] [] () update (\_ _ -> Null))
     update Startup _ _ = do
       subscribeWith Load
       pure ()
-    update (Load (Hash h)) (ws,_) _ = do
+    update (Load (Hash h)) ws _ = do
       remote backendAPI ws readModule h (publish . maybe LoadFailure LoadSuccess)
       pure ()
