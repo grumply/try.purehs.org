@@ -6,6 +6,7 @@ let deps =
       [ "base"
       , "pure"
       , "pure-elm"
+      , "pure-txt"
       , "pure-txt-interpolate"
       , "pure-server"
       , "pure-websocket"

@@ -9,6 +9,7 @@ dependencies:
 - base
 - pure
 - pure-elm
+- pure-txt
 - pure-txt-interpolate
 - pure-server
 - pure-websocket
@@ -65,11 +66,13 @@ default-extensions:
 - ViewPatterns
 - TemplateHaskell
 - PostfixOperators
+- DerivingVia
+- PostfixOperators
 name: backend
 version: 0.1.0.0
 synopsis: backend server
 author: <Author>
-ghcjs-options: -threaded -dedupe -DGHCJS_BROWSER -DGHCJS_GC_INTERVAL=3000000
+ghcjs-options: -O2 -threaded -dedupe -DGHCJS_BROWSER -DGHCJS_GC_INTERVAL=3000000
 license: BSD3
 executables:
   backend:
@@ -81,6 +84,7 @@ executables:
     - base
     - pure
     - pure-elm
+    - pure-txt
     - pure-txt-interpolate
     - pure-server
     - pure-websocket

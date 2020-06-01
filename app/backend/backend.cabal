@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 4acc0b522e7f2e915db26668295bdb1bb706cfc13fc3720ba771e88238650e5f
+-- hash: 4b78733f3e0ee02a35996e1f03f04ec63fc2c5257f2aeeee1b2638447e8aeef4
 
 name:           backend
 version:        0.1.0.0
@@ -21,9 +21,9 @@ library
       Main
   hs-source-dirs:
       src
-  default-extensions: AutoDeriveTypeable BangPatterns ConstraintKinds DataKinds DefaultSignatures DeriveDataTypeable DeriveFoldable DeriveFunctor DeriveGeneric DeriveTraversable DoAndIfThenElse EmptyCase EmptyDataDecls ExistentialQuantification FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving ImplicitParams InstanceSigs KindSignatures LambdaCase MultiParamTypeClasses MultiWayIf NamedFieldPuns OverloadedStrings PartialTypeSignatures PatternGuards PatternSynonyms PolyKinds RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving TupleSections TypeApplications TypeFamilies TypeFamilyDependencies TypeOperators TypeSynonymInstances ViewPatterns TemplateHaskell PostfixOperators
+  default-extensions: AutoDeriveTypeable BangPatterns ConstraintKinds DataKinds DefaultSignatures DeriveDataTypeable DeriveFoldable DeriveFunctor DeriveGeneric DeriveTraversable DoAndIfThenElse EmptyCase EmptyDataDecls ExistentialQuantification FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving ImplicitParams InstanceSigs KindSignatures LambdaCase MultiParamTypeClasses MultiWayIf NamedFieldPuns OverloadedStrings PartialTypeSignatures PatternGuards PatternSynonyms PolyKinds RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving TupleSections TypeApplications TypeFamilies TypeFamilyDependencies TypeOperators TypeSynonymInstances ViewPatterns TemplateHaskell PostfixOperators DerivingVia PostfixOperators
   ghc-options: -Wall -fno-warn-unused-do-bind -rtsopts -threaded
-  ghcjs-options: -threaded -dedupe -DGHCJS_BROWSER -DGHCJS_GC_INTERVAL=3000000
+  ghcjs-options: -O2 -threaded -dedupe -DGHCJS_BROWSER -DGHCJS_GC_INTERVAL=3000000
   build-depends:
       base
     , bytestring
@@ -35,6 +35,7 @@ library
     , pure
     , pure-elm
     , pure-server
+    , pure-txt
     , pure-txt-interpolate
     , pure-websocket
     , shared
@@ -47,9 +48,9 @@ executable backend
       Paths_backend
   hs-source-dirs:
       src
-  default-extensions: AutoDeriveTypeable BangPatterns ConstraintKinds DataKinds DefaultSignatures DeriveDataTypeable DeriveFoldable DeriveFunctor DeriveGeneric DeriveTraversable DoAndIfThenElse EmptyCase EmptyDataDecls ExistentialQuantification FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving ImplicitParams InstanceSigs KindSignatures LambdaCase MultiParamTypeClasses MultiWayIf NamedFieldPuns OverloadedStrings PartialTypeSignatures PatternGuards PatternSynonyms PolyKinds RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving TupleSections TypeApplications TypeFamilies TypeFamilyDependencies TypeOperators TypeSynonymInstances ViewPatterns TemplateHaskell PostfixOperators
+  default-extensions: AutoDeriveTypeable BangPatterns ConstraintKinds DataKinds DefaultSignatures DeriveDataTypeable DeriveFoldable DeriveFunctor DeriveGeneric DeriveTraversable DoAndIfThenElse EmptyCase EmptyDataDecls ExistentialQuantification FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving ImplicitParams InstanceSigs KindSignatures LambdaCase MultiParamTypeClasses MultiWayIf NamedFieldPuns OverloadedStrings PartialTypeSignatures PatternGuards PatternSynonyms PolyKinds RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving TupleSections TypeApplications TypeFamilies TypeFamilyDependencies TypeOperators TypeSynonymInstances ViewPatterns TemplateHaskell PostfixOperators DerivingVia PostfixOperators
   ghc-options: -Wall -fno-warn-unused-do-bind -rtsopts -threaded
-  ghcjs-options: -threaded -dedupe -DGHCJS_BROWSER -DGHCJS_GC_INTERVAL=3000000
+  ghcjs-options: -O2 -threaded -dedupe -DGHCJS_BROWSER -DGHCJS_GC_INTERVAL=3000000
   build-depends:
       backend
     , base
@@ -62,6 +63,7 @@ executable backend
     , pure
     , pure-elm
     , pure-server
+    , pure-txt
     , pure-txt-interpolate
     , pure-websocket
     , shared

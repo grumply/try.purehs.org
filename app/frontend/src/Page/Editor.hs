@@ -43,7 +43,7 @@ editor = run (App [Startup] [] [] (Model def) update view) ()
       ]
 
 foreign import javascript unsafe
-  "$r = CodeMirror['fromTextArea']($1,{ 'mode' : 'text/x-haskell', 'lineNumbers': true, 'tabSize': 2, 'extraKeys': { Tab: function(cm) { cm['replaceSelection']('  ','end'); }}})" 
+  "var f = function(cm) { cm['replaceSelection']('  ','end'); };var o = {}; o['theme'] = 'one-dark'; o['mode'] = 'text/x-haskell'; o['lineNumbers'] = true; o['tabSize'] = 2; o['extraKeys'] = {};  o['extraKeys']['Tab'] = f; $r = CodeMirror['fromTextArea']($1,o)" 
     start_editor_js 
       :: Node -> IO Editor
 

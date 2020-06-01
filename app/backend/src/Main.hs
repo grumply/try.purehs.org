@@ -2,6 +2,7 @@
 module Main where
 
 import Pure.Elm hiding (Left,Right)
+import Pure.Data.Txt as Txt
 import Pure.Data.Txt.Interpolate
 import Pure.Server
 import Pure.WebSocket as WS
@@ -21,6 +22,10 @@ import System.Process
 import System.Timeout
 import Text.Read
 
+import Data.Bits
+import Data.Char
+import Data.Word
+
 main :: IO ()
 main = inject body (server ()) >> hSetBuffering stdout NoBuffering >> sleep
   where
@@ -32,8 +37,8 @@ server = Component $ \_self -> def
     , render    = \_ _ -> Server "204.48.20.19" 8080 conn
     }
 
-data Model = Model [Int]
-data Msg = Startup | Compiled Int | Cleanup
+data Model = Model [Word64]
+data Msg = Startup | Compiled Word64 | Cleanup
 
 conn :: WebSocket -> View
 conn = run (App [Startup] [] [Cleanup] (Model []) update view) 
@@ -79,9 +84,22 @@ handleReadModule = respondWith $ \h -> do
         else pure Nothing
     Nothing -> pure Nothing
 
+
+-- Data.Hashable doesn't work across GHC and GHCJS, so we need a 
+-- custom hash with a fixed-width integral type.
+{-# INLINE fnv64 #-}
+fnv64 :: Txt -> Word64
+fnv64 = Txt.foldl' hash 0xcbf29ce484222325
+  where
+    {-# INLINE hash #-}
+    hash :: Word64 -> Char -> Word64
+    hash i c = 
+      let i' = i `xor` fromIntegral (ord c) 
+      in i' * 0x100000001b3
+
 handleCompile :: Elm Msg => RequestHandler Compile
 handleCompile = respondWith $ \cnt -> do
-  let h = abs (hash cnt)
+  let h = abs (fnv64 cnt)
       d = [i|dist/static/builds/#{h}/|]
       exe = [i|#{d}/Main.jsexe/|]
       mdl = [i|#{d}/Main.hs|] 
