@@ -15,14 +15,17 @@ import Data.Foldable
 
 data Model = Model { compiling :: Bool }
 
-data Msg = Startup | Command Command
+data Msg = Startup | Receive | Command Command
 
 page :: WebSocket -> Maybe String -> View
-page ws mh = run (App [Startup] [] [] (Model False) update view) (ws,mh)
+page ws mh = run (App [Startup] [Receive] [] (Model False) update view) (ws,mh)
   where
     update Startup (_,mh) mdl = do
-      for_ mh (publish . Hash)
       subscribeWith Command
+      pure mdl
+
+    update Receive (_,mh) mdl = do
+      for_ mh (publish . Hash)
       pure mdl
 
     update (Command c) _ mdl = do
