@@ -116,8 +116,8 @@ infixr 0 |$
 
 defaultMain :: HasCallStack => FilePath -> [Action] -> IO ()
 defaultMain d as = do
-  hSetBuffering stdout NoBuffering
-  hSetBuffering stderr NoBuffering
+  hSetBuffering stdout LineBuffering
+  hSetBuffering stderr LineBuffering
   putStrLn "Watching files."
   withManagerConf defaultConfig { confDebounce = Debounce (realToFrac (0.5 :: Double)) } $ \mgr -> do
     actions <- newMVar Map.empty
@@ -247,9 +247,9 @@ spawn s = do
     , std_err = CreatePipe
     }
   (`finally` (cleanupProcess p)) $ do
-    hSetBuffering outh NoBuffering
-    hSetBuffering errh NoBuffering
-    let pipe i o = (`finally` (hClose i)) (hGetContents i >>= hPutStr o)
+    hSetBuffering outh LineBuffering
+    hSetBuffering errh LineBuffering
+    let pipe i o = (`finally` (hClose i)) (hGetContents i >>= traverse_ (hPutStrLn o) . Prelude.lines)
     forkIO (pipe outh stdout)
     forkIO (pipe errh stderr)
     waitForProcess ph

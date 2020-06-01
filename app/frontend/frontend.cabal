@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f410cc2a17d5b3532e93db4a3cab92b6028de59d9de6c542a7ce400fc3e1190b
+-- hash: cad27a23df6ac5181c883d3c57f6cfa90eb826fd43f2c0f487e8eafa47aa392d
 
 name:           frontend
 version:        0.1.0.0
@@ -18,13 +18,20 @@ build-type:     Simple
 
 library
   exposed-modules:
-      Home
       Main
+      Page
+      Page.Commands
+      Page.Compiler
+      Page.Editor
+      Page.Loader
+      Page.Results
+      Page.Themes
+      Page.Utils
   hs-source-dirs:
       src
-  default-extensions: AutoDeriveTypeable BangPatterns ConstraintKinds DataKinds DefaultSignatures DeriveDataTypeable DeriveFoldable DeriveFunctor DeriveGeneric DeriveTraversable DoAndIfThenElse EmptyCase EmptyDataDecls ExistentialQuantification FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving ImplicitParams InstanceSigs KindSignatures LambdaCase MultiParamTypeClasses MultiWayIf NamedFieldPuns OverloadedStrings PartialTypeSignatures PatternGuards PatternSynonyms PolyKinds RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving TupleSections TypeApplications TypeFamilies TypeFamilyDependencies TypeOperators TypeSynonymInstances ViewPatterns TemplateHaskell PostfixOperators
+  default-extensions: AutoDeriveTypeable BangPatterns ConstraintKinds DataKinds DefaultSignatures DeriveDataTypeable DeriveFoldable DeriveFunctor DeriveGeneric DeriveTraversable DoAndIfThenElse EmptyCase EmptyDataDecls ExistentialQuantification FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving ImplicitParams InstanceSigs KindSignatures LambdaCase MultiParamTypeClasses MultiWayIf NamedFieldPuns OverloadedStrings PartialTypeSignatures PatternGuards PatternSynonyms PolyKinds RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving TupleSections TypeApplications TypeFamilies TypeFamilyDependencies TypeOperators TypeSynonymInstances ViewPatterns TemplateHaskell PostfixOperators DerivingVia PostfixOperators
   ghc-options: -Wall -fno-warn-unused-do-bind -rtsopts -threaded
-  ghcjs-options: -threaded -dedupe -DGHCJS_BROWSER -DGHCJS_GC_INTERVAL=3000000
+  ghcjs-options: -O2 -threaded -dedupe -DGHCJS_BROWSER -DGHCJS_GC_INTERVAL=3000000
   build-depends:
       base
     , pure
@@ -39,13 +46,20 @@ library
 executable frontend
   main-is: Main.hs
   other-modules:
-      Home
+      Page
+      Page.Commands
+      Page.Compiler
+      Page.Editor
+      Page.Loader
+      Page.Results
+      Page.Themes
+      Page.Utils
       Paths_frontend
   hs-source-dirs:
       src
-  default-extensions: AutoDeriveTypeable BangPatterns ConstraintKinds DataKinds DefaultSignatures DeriveDataTypeable DeriveFoldable DeriveFunctor DeriveGeneric DeriveTraversable DoAndIfThenElse EmptyCase EmptyDataDecls ExistentialQuantification FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving ImplicitParams InstanceSigs KindSignatures LambdaCase MultiParamTypeClasses MultiWayIf NamedFieldPuns OverloadedStrings PartialTypeSignatures PatternGuards PatternSynonyms PolyKinds RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving TupleSections TypeApplications TypeFamilies TypeFamilyDependencies TypeOperators TypeSynonymInstances ViewPatterns TemplateHaskell PostfixOperators
+  default-extensions: AutoDeriveTypeable BangPatterns ConstraintKinds DataKinds DefaultSignatures DeriveDataTypeable DeriveFoldable DeriveFunctor DeriveGeneric DeriveTraversable DoAndIfThenElse EmptyCase EmptyDataDecls ExistentialQuantification FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving ImplicitParams InstanceSigs KindSignatures LambdaCase MultiParamTypeClasses MultiWayIf NamedFieldPuns OverloadedStrings PartialTypeSignatures PatternGuards PatternSynonyms PolyKinds RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving TupleSections TypeApplications TypeFamilies TypeFamilyDependencies TypeOperators TypeSynonymInstances ViewPatterns TemplateHaskell PostfixOperators DerivingVia PostfixOperators
   ghc-options: -Wall -fno-warn-unused-do-bind -rtsopts -threaded
-  ghcjs-options: -threaded -dedupe -DGHCJS_BROWSER -DGHCJS_GC_INTERVAL=3000000
+  ghcjs-options: -O2 -threaded -dedupe -DGHCJS_BROWSER -DGHCJS_GC_INTERVAL=3000000
   build-depends:
       base
     , frontend

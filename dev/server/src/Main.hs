@@ -37,7 +37,7 @@ main :: IO ()
 main = execParser optsParser >>= staticHTML5Server
 
 staticHTML5Server :: Opts -> IO ()
-staticHTML5Server os = run 8080 app -- (compressing app)
+staticHTML5Server os = run 80 app -- (compressing app)
   where
     -- compressing = gzip def { gzipFiles = GzipCacheFolder "/cache" }
     app req send =

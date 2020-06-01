@@ -59,11 +59,13 @@ default-extensions:
 - ViewPatterns
 - TemplateHaskell
 - PostfixOperators
+- DerivingVia
+- PostfixOperators
 name: frontend
 version: 0.1.0.0
 synopsis: frontend client
 author: <Author>
-ghcjs-options: -threaded -dedupe -DGHCJS_BROWSER -DGHCJS_GC_INTERVAL=3000000
+ghcjs-options: -O2 -threaded -dedupe -DGHCJS_BROWSER -DGHCJS_GC_INTERVAL=3000000
 license: BSD3
 executables:
   frontend:
