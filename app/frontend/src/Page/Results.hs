@@ -33,7 +33,7 @@ results = run (App [Startup] [] [] (Model def Nothing) update view) ()
           set_value_js f (editor mdl)
           pure mdl { result = Nothing }
         CompileSuccess s -> do
-          pushState ("/" <> s)
+          pushState ("/" <> toTxt s)
           set_value_js "" (editor mdl)
           pure mdl { result = Just s }
 
