@@ -14,6 +14,7 @@ editor = run (App [Startup] [] [] (Model def) update view) ()
   where
     update Startup _ mdl = do
       subscribeWith Command
+      subscribeWith LoadResult
       pure mdl
 
     update (CreateEditor n) _ _ = do
