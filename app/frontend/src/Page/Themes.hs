@@ -79,8 +79,11 @@ data CompileButtonT
 instance Theme CompileButtonT where
   theme c = void $ do
     is (subtheme @CompilingT) . has c $ do
-      splitWidth <%> do
+      apply $ do
         display =: none
+
+      splitWidth <%> do
+        display =: inline-block
 
     is c .> do
       display =: inline-block
@@ -88,11 +91,21 @@ instance Theme CompileButtonT where
 
 data VimButtonT
 instance Theme VimButtonT where
-  theme c = void $ 
-    is c $ do
-      apply $ do
+  theme c = void $ do
+    is c .> do
+      display =: none
+      height  =: 20px
+
+    is (subtheme @EditingT) . has c .> do
+      display =: inline-block
+
+    is (subtheme @CompilingT) . has c $ do
+      apply $
+        display =: none
+
+      splitWidth <%> do
         display =: inline-block
-        height  =: 20px
+
 
 data EditorT
 instance Theme EditorT where
