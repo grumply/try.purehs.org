@@ -34,7 +34,7 @@ main = inject body (server ()) >> hSetBuffering stdout NoBuffering >> sleep
 server :: () -> View
 server = Component $ \_self -> def
     { construct = return ()
-    , render    = \_ _ -> Server "204.48.20.19" 8080 conn
+    , render    = \_ _ -> Server "try.purehs.org" 8080 conn
     }
 
 data Model = Model [Word64]
@@ -67,8 +67,8 @@ conn = run (App [Startup] [] [Cleanup] (Model []) update view)
 backendImpl :: ( msgs ~ '[]
                , reqs ~ '[Compile,ReadModule]
                ) => Elm Msg 
-                 => Implementation msgs reqs msgs reqs
-backendImpl = Impl backendAPI msgs reqs
+                 => Endpoints msgs reqs msgs reqs
+backendImpl = Endpoints backendAPI msgs reqs
   where
     msgs = WS.none
     reqs = handleCompile <:> handleReadModule <:> WS.none
@@ -98,7 +98,7 @@ fnv64 = Txt.foldl' hash 0xcbf29ce484222325
       in i' * 0x100000001b3
 
 handleCompile :: Elm Msg => RequestHandler Compile
-handleCompile = respondWith $ \cnt -> do
+handleCompile = respondWith $ \(cnt,cache) -> do
   let h = abs (fnv64 cnt)
       d = [i|dist/static/builds/#{h}/|]
       exe = [i|#{d}/Main.jsexe/|]
@@ -119,6 +119,7 @@ handleCompile = respondWith $ \cnt -> do
         , "TupleSections", "TypeApplications", "TypeFamilies"
         , "TypeFamilyDependencies", "TypeOperators", "TypeSynonymInstances"
         , "ViewPatterns", "PostfixOperators", "JavaScriptFFI", "QuasiQuotes"
+        , "DerivingVia"
         ]
   de <- doesDirectoryExist exe
   if de 
@@ -144,7 +145,7 @@ handleCompile = respondWith $ \cnt -> do
         mec <- timeout 3e+7 (waitForProcess ph)
         hClose o
         hClose e
-        command (Compiled h)
+        unless cache $ command (Compiled h)
         case mec of
           Just ExitSuccess -> pure (Right $ show h)
           Nothing          -> pure (Left "Timeout: compilation took more than 30 seconds.")

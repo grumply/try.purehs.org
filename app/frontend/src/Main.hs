@@ -15,7 +15,7 @@ import Page.Themes (AppT())
 main :: IO ()
 main = do
   hSetBuffering stdout LineBuffering
-  ws <- clientWS "204.48.20.19" 8080
+  ws <- clientWS "try.purehs.org" 8080
   inject body (app ws)
 
 data Route = R (Maybe String)

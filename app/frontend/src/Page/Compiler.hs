@@ -17,5 +17,5 @@ compiler = run (App [Startup] [] [] () update (\_ _ -> Null))
       subscribeWith Build
       pure ()
     update (Build (Module t)) ws _ = do
-      remote backendAPI ws compile t (publish . either CompileFailure CompileSuccess)
+      remote backendAPI ws compile (t,False) (publish . either CompileFailure CompileSuccess)
       pure ()
