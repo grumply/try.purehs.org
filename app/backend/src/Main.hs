@@ -84,7 +84,6 @@ handleReadModule = respondWith $ \h -> do
         else pure Nothing
     Nothing -> pure Nothing
 
-
 -- Data.Hashable doesn't work across GHC and GHCJS, so we need a 
 -- custom hash with a fixed-width integral type.
 {-# INLINE fnv64 #-}
@@ -101,10 +100,14 @@ handleCompile :: Elm Msg => RequestHandler Compile
 handleCompile = respondWith $ \(cnt,cache) -> do
   let h = abs (fnv64 cnt)
       d = [i|dist/static/builds/#{h}/|]
-      exe = [i|#{d}/Main.jsexe/|]
+      exe = [i|#{d}/Main.jsexe|]
       mdl = [i|#{d}/Main.hs|] 
       out = [i|#{d}/out.txt|]
       err = [i|#{d}/err.txt|]
+      ind = [i|#{exe}/index.html|]
+      lib = [i|#{exe}/lib.js|]
+      rts = [i|#{exe}/rts.js|]
+      run = [i|#{exe}/runmain.js|]
       pragmas = List.intercalate " " $ fmap ("-X" <>)
         [ "AutoDeriveTypeable", "BangPatterns", "ConstraintKinds", "DataKinds"
         , "DefaultSignatures", "DeriveDataTypeable", "DeriveFoldable"
@@ -124,7 +127,7 @@ handleCompile = respondWith $ \(cnt,cache) -> do
   de <- doesDirectoryExist exe
   if de 
     then do
-      fe <- doesFileExist [i|#{exe}/index.html|]
+      fe <- doesFileExist ind
       if fe
         then pure $ Right (show h)
         else Left <$> Text.readFile err
@@ -145,9 +148,38 @@ handleCompile = respondWith $ \(cnt,cache) -> do
         mec <- timeout 3e+7 (waitForProcess ph)
         hClose o
         hClose e
+        moveLib lib >>= rewriteIndex ind
+        removeFile lib
+        removeFile rts
+        removeFile run
         unless cache $ command (Compiled h)
         case mec of
           Just ExitSuccess -> pure (Right $ show h)
           Nothing          -> pure (Left "Timeout: compilation took more than 30 seconds.")
           _                -> Left <$> Text.readFile err
 
+-- Since rts.js and lib.js are often the same, they are shared across builds
+rewriteIndex :: String -> Word64 -> IO ()
+rewriteIndex ind lib = do
+  i <- Text.readFile ind
+  Txt.length i `seq` 
+    Text.writeFile ind $
+      Txt.replace "runmain.js" "/static/runmain.js" $
+      Txt.replace "rts.js" "/static/rts.js" $
+      Txt.replace "lib.js" ("/static/" <> toTxt (show lib) <> ".js") $
+      i
+
+-- lib rarely differs unless a library with js sources is included,
+-- so we lift the lib up to dist/static/ for sharing
+moveLib :: String -> IO Word64
+moveLib lib = do
+  l <- Text.readFile lib
+  let f = fnv64 l
+  f `seq` do
+    let newLib = "dist/static/" <> show f <> ".js"
+    fe <- doesFileExist newLib
+    if fe
+      then pure f
+      else do
+        Text.writeFile newLib l
+        pure f
