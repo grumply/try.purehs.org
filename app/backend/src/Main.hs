@@ -34,7 +34,7 @@ main = inject body (server ()) >> hSetBuffering stdout NoBuffering >> sleep
 server :: () -> View
 server = Component $ \_self -> def
     { construct = return ()
-    , render    = \_ _ -> Server "try.purehs.org" 8080 conn
+    , render    = \_ _ -> Server "204.48.20.19" 8080 conn
     }
 
 data Model = Model [Word64]
