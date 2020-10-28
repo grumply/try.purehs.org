@@ -76,7 +76,7 @@ backendImpl = Endpoints backendAPI msgs reqs
 handleReadModule :: RequestHandler ReadModule
 handleReadModule = respondWith $ \h -> do
   case readMaybe h of
-    Just (n :: Int) -> do
+    Just (n :: Word64) -> do
       let f = [i|dist/static/builds/#{n}/Main.hs|]
       fe <- doesFileExist f
       if fe
@@ -122,7 +122,7 @@ handleCompile = respondWith $ \(cnt,cache) -> do
         , "TupleSections", "TypeApplications", "TypeFamilies"
         , "TypeFamilyDependencies", "TypeOperators", "TypeSynonymInstances"
         , "ViewPatterns", "PostfixOperators", "JavaScriptFFI", "QuasiQuotes"
-        , "DerivingVia"
+        , "DerivingVia", "BlockArguments"
         ]
   de <- doesDirectoryExist exe
   if de 
@@ -140,7 +140,7 @@ handleCompile = respondWith $ \(cnt,cache) -> do
       e <- openFile err WriteMode 
       handle @SomeException (\_ -> hClose o >> hClose e >> pure (Left "Unknown exception encountered during compilation.")) $ do
         (_,_,_,ph) <- createProcess 
-          (shell [i|ghcjs --make -O -DGHCJS_BROWSER -dedupe #{mdl} #{pragmas} -XNoTemplateHaskell|])
+          (shell [i|ghcjs --make -O1 -DGHCJS_BROWSER -DGHCJS_BUSY_YIELD=20 -dedupe #{mdl} #{pragmas} -XNoTemplateHaskell|])
             { std_out = UseHandle o 
             , std_err = UseHandle e
             , std_in  = NoStream
@@ -148,10 +148,12 @@ handleCompile = respondWith $ \(cnt,cache) -> do
         mec <- timeout 3e+7 (waitForProcess ph)
         hClose o
         hClose e
-        moveLib lib >>= rewriteIndex ind
-        removeFile lib
-        removeFile rts
-        removeFile run
+        fe <- doesFileExist lib
+        when fe $ do
+          moveLib lib >>= rewriteIndex ind
+          removeFile lib
+          removeFile rts
+          removeFile run        
         unless cache $ command (Compiled h)
         case mec of
           Just ExitSuccess -> pure (Right $ show h)
